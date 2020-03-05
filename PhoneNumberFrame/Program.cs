@@ -48,7 +48,7 @@ namespace PhoneNumberFrame
                     case 1:
                         printPeople(peopleRepo.GetPeople()); break;
                     case 2:
-                        var person = MakePerson(peopleRepo); // Helper метод для добавления сотрудника в БД
+                        var person = MakePerson(peopleRepo);
                         peopleRepo.AddPerson(person);
                         break;
                     case 3:
@@ -99,6 +99,10 @@ namespace PhoneNumberFrame
             
         }
 
+        /// <summary>
+        /// Helper функция для форматированного вывода информации на консоль
+        /// </summary>
+        /// <param name="people"></param>
         private static void printPeople(List<MPerson> people)
         {
             Console.WriteLine();
@@ -119,6 +123,11 @@ namespace PhoneNumberFrame
             }
         }
 
+        /// <summary>
+        /// Helper функция, создает объект модели MPerson на основе введенной в консоль информации
+        /// </summary>
+        /// <param name="peopleRepo"></param>
+        /// <returns></returns>
         private static MPerson MakePerson(PeopleRepo peopleRepo)
         {
             MPerson person = new MPerson();
@@ -131,19 +140,12 @@ namespace PhoneNumberFrame
 
             Console.Write("Введите дату рождения в формате гг.мм.дд.: ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime birthday))
-            {
                 person.Birthdate = birthday;
-            }
-            else
-                person.Birthdate = null;
+            
 
             Console.Write("Введите пол: ");
             if (bool.TryParse(Console.ReadLine(), out bool gender))
-            {
                 person.Gender = gender;
-            }
-            else
-                person.Gender = null;
 
             Console.Write("Введите рабочий телефон: ");
             person.WorkPhoneNum = Console.ReadLine();
@@ -159,29 +161,15 @@ namespace PhoneNumberFrame
 
             Console.Write("Введите дату начала работы гг.мм.дд.: ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime begin))
-            {
                 person.WorkBegin = begin;
-            }
-            else
-                person.Birthdate = null;
 
             Console.Write("Введите дату увольнения гг.мм.дд.: ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime end))
-            {
                 person.WorkEnd = end;
-            }
-            else
-                person.Birthdate = null;
 
             Console.WriteLine("Выберите ID позиции из списка (Default = \"Инженер\"): ");
             printPositions(peopleRepo.GetPositions()); // Вывести список позиции
-
-            if (int.TryParse(Console.ReadLine(), out int pos))
-            {
-                person.PositionId = pos;
-            }
-            else
-                person.PositionId = 3;
+            person.PositionId = int.TryParse(Console.ReadLine(), out int pos) ? pos : 3; // pos либо 3 (инженер)
            
             return person;
         }
