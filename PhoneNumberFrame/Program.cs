@@ -124,7 +124,8 @@ namespace PhoneNumberFrame
         }
 
         /// <summary>
-        /// Helper функция, создает объект модели MPerson на основе введенной в консоль информации
+        /// Helper функция, возвращает объект класса MPerson на основе введенной в консоль информации
+        /// Принимает peopleRepo чтобы вывести всевозможные позиции
         /// </summary>
         /// <param name="peopleRepo"></param>
         /// <returns></returns>
