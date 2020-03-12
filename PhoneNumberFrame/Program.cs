@@ -112,7 +112,7 @@ namespace PhoneNumberFrame
         /// Helper функция для форматированного вывода информации на консоль
         /// </summary>
         /// <param name="people"></param>
-        private static void printPeople(List<MService> people)
+        private static void printPeople(List<MPerson> people)
         {
             Console.WriteLine();
             Console.WriteLine("{0, -3}| {1, -10}| {2, -10}| {3, -15}| {4, -11}| {5, -23}| {6, -23}", "ID", "Имя", "Фамилия", "Адрес", "Раб. тел.", "Дата Рождения", "Принят на работу");
@@ -138,9 +138,9 @@ namespace PhoneNumberFrame
         /// </summary>
         /// <param name="peopleRepo"></param>
         /// <returns></returns>
-        private static MService MakePerson(PeopleRepo peopleRepo)
+        private static MPerson MakePerson(PeopleRepo peopleRepo)
         {
-            MService person = new MService();
+            MPerson person = new MPerson();
 
             Console.Write("Введите имя: ");
             person.Name = Console.ReadLine();
@@ -180,7 +180,13 @@ namespace PhoneNumberFrame
             Console.WriteLine("Выберите ID позиции из списка (Default = \"Инженер\"): ");
             printPositions(peopleRepo.GetPositions()); // Вывести список позиции
             person.PositionId = int.TryParse(Console.ReadLine(), out int pos) ? pos : 3; // pos либо 3 (инженер)
-           
+
+            Console.WriteLine("isBoss: ");
+            person.isBoss = int.TryParse(Console.ReadLine(), out int isBoss) ? isBoss : 0;
+
+            Console.WriteLine("serviceId: ");
+            person.ServiceId = int.TryParse(Console.ReadLine(), out int serId) ? serId : 1;
+
             return person;
         }
 

@@ -15,12 +15,12 @@ namespace PhoneNumberFrame.Repositories
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        public List<MService> GetPeople()
+        public List<MPerson> GetPeople()
         {
             using(IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = "exec ShowPeople";
-                return db.Query<MService>(sql).ToList();
+                return db.Query<MPerson>(sql).ToList();
             }
         }
 
@@ -35,7 +35,7 @@ namespace PhoneNumberFrame.Repositories
             }
         }
 
-        public List<MService> SearchByName(string name)
+        public List<MPerson> SearchByName(string name)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
@@ -43,24 +43,24 @@ namespace PhoneNumberFrame.Repositories
                     "from People a, Positions b " +
                     "where a.PositionId = b.Id " +
                     "and a.Name like '%'+ @name + '%'";
-                return db.Query<MService>(sql, new { name=name }).ToList();
+                return db.Query<MPerson>(sql, new { name=name }).ToList();
             }
         }
 
-        public List<MService> Search(string q)
+        public List<MPerson> Search(string q)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = "exec search";
-                return db.Query<MService>(sql, new { q  }).ToList();
+                return db.Query<MPerson>(sql, new { q  }).ToList();
             }
         }
 
-        internal List<MService> SearchByFullname(string fullname)
+        internal List<MPerson> SearchByFullname(string fullname)
         {
             fullname = fullname.Trim();
             string[] fullnameArray = fullname.Split(' ');
-            if ((fullname == "") || (fullnameArray.Length < 2)) return new List<MService>(); ;
+            if ((fullname == "") || (fullnameArray.Length < 2)) return new List<MPerson>(); ;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = "select a.*, b.Name as Position " +
@@ -68,11 +68,11 @@ namespace PhoneNumberFrame.Repositories
                     "where a.PositionId = b.Id " +
                     "and a.Name like '%'+ @Name + '%'" +
                     "and a.Surname like '%'+ @Surname + '%'";
-                return db.Query<MService>(sql, new { Name = fullnameArray[0], Surname = fullnameArray[1] }).ToList();
+                return db.Query<MPerson>(sql, new { Name = fullnameArray[0], Surname = fullnameArray[1] }).ToList();
             }
         }
 
-        internal List<MService> SearchBySurname(string Surname)
+        internal List<MPerson> SearchBySurname(string Surname)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
@@ -80,42 +80,42 @@ namespace PhoneNumberFrame.Repositories
                     "from People a, Positions b " +
                     "where a.PositionId = b.Id " +
                     "and a.Surname like '%'+ @Surname + '%'";
-                return db.Query<MService>(sql, new { Surname }).ToList();
+                return db.Query<MPerson>(sql, new { Surname }).ToList();
             }
         }
 
-        internal List<MService> SearchByWorkPhoneNumber(string workPhoneNumber)
+        internal List<MPerson> SearchByWorkPhoneNumber(string workPhoneNumber)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = @"select * FROM People
                                 where WorkPhoneNum = @workPhoneNumber";
-                return db.Query<MService>(sql, new { workPhoneNumber }).ToList();
+                return db.Query<MPerson>(sql, new { workPhoneNumber }).ToList();
             }
         }
 
-        internal List<MService> SearchById(string id)
+        internal List<MPerson> SearchById(string id)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = @"select * FROM People
                                 where Id = @id";
-                return db.Query<MService>(sql, new { id }).ToList();
+                return db.Query<MPerson>(sql, new { id }).ToList();
             }
         }
 
-        internal List<MService> SearchByPosition(int pos)
+        internal List<MPerson> SearchByPosition(int pos)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sql = @"SELECT *
                                 FROM People
                                 WHERE PositionId = @pos";
-                return db.Query<MService>(sql, new { pos }).ToList();
+                return db.Query<MPerson>(sql, new { pos }).ToList();
             }
         }
 
-        public void AddPerson(MService person)
+        public void AddPerson(MPerson person)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
@@ -130,7 +130,9 @@ namespace PhoneNumberFrame.Repositories
                                 ,[Email]
                                 ,[WorkBegin]
                                 ,[WorkEnd]
-                                ,[PositionId])
+                                ,[PositionId]
+                                ,[isBoss]
+                                ,[ServiceId])
                             VALUES(
                                  @Name
                                 ,@SurName
@@ -142,7 +144,9 @@ namespace PhoneNumberFrame.Repositories
                                 ,@Email
                                 ,@WorkBegin
                                 ,@WorkEnd
-                                ,@PositionId)";
+                                ,@PositionId
+                                ,@isBoss
+                                ,@ServiceId)";
                 db.Execute(sql, new {   Name = person.Name, 
                                         Surname = person.Surname, 
                                         Birthdate = person.Birthdate,
@@ -154,6 +158,8 @@ namespace PhoneNumberFrame.Repositories
                                         WorkBegin = person.WorkBegin,
                                         WorkEnd = person.WorkEnd,
                                         PositionId = person.PositionId,
+                                        isBoss = person.isBoss,
+                                        ServiceId = person.ServiceId
                                         });
             }
         }
