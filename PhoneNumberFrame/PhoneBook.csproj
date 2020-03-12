@@ -49,9 +49,11 @@
   <ItemGroup>
     <Compile Include="Models\MPerson.cs" />
     <Compile Include="Models\MPosition.cs" />
+    <Compile Include="Models\MService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\PeopleRepo.cs" />
+    <Compile Include="Repositories\ServicesRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

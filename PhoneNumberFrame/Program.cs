@@ -28,6 +28,9 @@ namespace PhoneNumberFrame
                 Console.WriteLine(" 8. Вывести всех сотрудников по выбранной позиции");
                 Console.WriteLine(" 9. Удалить сотрудника по ID");
                 Console.WriteLine("10. Удалить сотрудника по ФИО");
+                Console.WriteLine("11. Вывод руководства");
+                Console.WriteLine("12. Вывод уволенных");
+                Console.WriteLine("13. Вывод сотрудников определенной службы");
                 Console.WriteLine("=================================================");
                 ConsoleColor prevColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red; // изменяет цвет шрифта
@@ -85,6 +88,12 @@ namespace PhoneNumberFrame
                         Console.Write("Введите <имя> <фамилия> (удаление из БД): ");
                         peopleRepo.DeletePerson(Console.ReadLine());
                         break;
+                    case 11:
+                        Console.Write("Введите службу: ");
+                        break;
+                    case 12:
+                        Console.WriteLine( );
+                        break;
                     default:
                         Console.WriteLine("Выберите пункт из списка.");
                         break;
@@ -103,7 +112,7 @@ namespace PhoneNumberFrame
         /// Helper функция для форматированного вывода информации на консоль
         /// </summary>
         /// <param name="people"></param>
-        private static void printPeople(List<MPerson> people)
+        private static void printPeople(List<MService> people)
         {
             Console.WriteLine();
             Console.WriteLine("{0, -3}| {1, -10}| {2, -10}| {3, -15}| {4, -11}| {5, -23}| {6, -23}", "ID", "Имя", "Фамилия", "Адрес", "Раб. тел.", "Дата Рождения", "Принят на работу");
@@ -129,9 +138,9 @@ namespace PhoneNumberFrame
         /// </summary>
         /// <param name="peopleRepo"></param>
         /// <returns></returns>
-        private static MPerson MakePerson(PeopleRepo peopleRepo)
+        private static MService MakePerson(PeopleRepo peopleRepo)
         {
-            MPerson person = new MPerson();
+            MService person = new MService();
 
             Console.Write("Введите имя: ");
             person.Name = Console.ReadLine();

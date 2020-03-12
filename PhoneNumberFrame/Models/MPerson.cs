@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhoneNumberFrame
 {
-    class MPerson
+    class MService
     {
         public int id { get; set; }
         public string Name { get; set; }
@@ -21,5 +21,8 @@ namespace PhoneNumberFrame
         public DateTime? WorkEnd { get; set; }
         public int PositionId { get; set; }
         public string Position { get; set; }
+
+        public int ServiceId { get; set; }
+        public string Service { get; set; }
     }
 }
